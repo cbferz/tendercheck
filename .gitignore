@@ -3,6 +3,7 @@
 build/
 dist/
 node_modules/
+kotlin-js-store/
 .idea/
 *.iml
 local.properties
