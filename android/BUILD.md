@@ -1,0 +1,1 @@
+Android packaging is automated by `.github/workflows/android-apk.yml`. Pushes to `android-apk` build the web bundle, embed it in the WebView assets, and upload `app-debug.apk` as the `TenderCheck-debug-apk` workflow artifact. A manual run is also available from the GitHub Actions tab.
