@@ -42,6 +42,27 @@ jobs:
           cp -R "$WEB_DIR"/. android/app/src/main/assets/www/
           test -s android/app/src/main/assets/www/tendercheck.js
 
+      - name: Generate launcher icon from supplied artwork
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          base64 -d android/icon-source.jpg.b64 > /tmp/tendercheck-icon.jpg
+          declare -A sizes=(
+            [mdpi]=48
+            [hdpi]=72
+            [xhdpi]=96
+            [xxhdpi]=144
+            [xxxhdpi]=192
+          )
+          for density in "${!sizes[@]}"; do
+            size="${sizes[$density]}"
+            out="android/app/src/main/res/mipmap-$density"
+            mkdir -p "$out"
+            convert /tmp/tendercheck-icon.jpg -resize "${size}x${size}!" -strip "$out/ic_launcher.png"
+          done
+
       - name: Build debug APK
         run: ./gradlew -p android :app:assembleDebug
 
